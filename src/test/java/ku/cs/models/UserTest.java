@@ -28,8 +28,13 @@ class UserTest {
     @Test
     void testSetPassword(){
         User user = new User("user01", "123");
+        String oldPassword = user.getPassword();
 
-        user.setPassword("1234");
-        assertEquals(BCrypt.withDefaults().hashToString(12, "1234".toCharArray()), user.getPassword());
+        user.setPassword("abc");
+        String newPassword = user.getPassword();
+
+        assertNotEquals(oldPassword, newPassword);
+        assertTrue(user.validatePassword("abc"));
+        assertFalse(user.validatePassword("123"));
     }
 }
